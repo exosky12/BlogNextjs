@@ -27,6 +27,7 @@ export const NewPost = () => {
 				id: parseInt(uuidv4().replace(/-/g, '').substring(0, 4), 16),
 				title: String(postTitle),
 				content: String(postContent),
+				// author: String(),
 				authorId: Number(2),
 			}),
 		})
@@ -34,6 +35,8 @@ export const NewPost = () => {
 			.then((data) => {
 				router.refresh();
 			});
+
+			
 	};
 
 	return (
