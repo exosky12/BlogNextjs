@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 
-export const AddBlog = () => {
+export const NewPost = () => {
 	const router = useRouter();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,13 +17,17 @@ export const AddBlog = () => {
 
 		if (!postTitle || !postContent) return;
 
-		fetch(`/api/post`, {
+		fetch(`/api/addPosts`, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
 			body: JSON.stringify({
-				id: uuidv4(),
-				title: postTitle,
-				content: postContent,
-				authorId: 2,
+				id: parseInt(uuidv4().replace(/-/g, '').substring(0, 4), 16),
+				title: String(postTitle),
+				content: String(postContent),
+				authorId: Number(2),
 			}),
 		})
 			.then((res) => res.json())
