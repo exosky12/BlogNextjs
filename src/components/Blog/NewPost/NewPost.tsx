@@ -36,7 +36,6 @@ export const NewPost = () => {
 				router.refresh();
 			});
 
-			
 	};
 
 	return (
