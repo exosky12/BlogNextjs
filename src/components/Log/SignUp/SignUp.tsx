@@ -1,6 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
+
 export const SignUp = () => {
+
+	const router = useRouter();
+
 	const signUp = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -8,14 +14,40 @@ export const SignUp = () => {
 
 		if (!formData) return;
 
+		const name = formData.get('Name');
 		const email = formData.get('Email');
 		const password = formData.get('Mdp');
 
 		if (!email || !password) return;
+
+    fetch(`/api/addUser`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+        name: String(name),
+        email: String(email),
+				password: String(password),
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				router.refresh();
+			});
+
 	};
 
 	return (
 		<form className='flex flex-col gap-2' onSubmit={signUp}>
+      <label htmlFor='Name'>Nom d'utilisateur</label>
+			<input
+				className='p-3 text-white placeholder-white bg-white rounded bg-opacity-10'
+				type='text'
+				name='Name'
+				required={true}
+			/>
 			<label htmlFor='Email'>Email</label>
 			<input
 				className='p-3 text-white placeholder-white bg-white rounded bg-opacity-10'
