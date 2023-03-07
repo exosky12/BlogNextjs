@@ -8,7 +8,7 @@ type Data = {
 };
 
 const BodyScheme = z.object({
-	id: z.number().min(1).max(255),
+	id: z.number(),
 	title: z.string().min(1).max(255),
 	content: z.string().min(1).max(255),
 	authorId: z.number().min(1).max(255),
@@ -23,7 +23,7 @@ export default async function handler(
 		return;
 	}
 
-	const body = BodyScheme.parse(JSON.parse(req.body));
+	const body = BodyScheme.parse(req.body);
 	const post = await prisma.post.create({
 		data: {
 			id: body.id,
