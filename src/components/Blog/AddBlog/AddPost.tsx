@@ -1,8 +1,11 @@
 'use client';
 
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid'
 
 export const AddBlog = () => {
+	const router = useRouter();
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -13,6 +16,20 @@ export const AddBlog = () => {
 		const postContent = formData.get('Content');
 
 		if (!postTitle || !postContent) return;
+
+		fetch(`/api/post`, {
+			method: 'POST',
+			body: JSON.stringify({
+				id: uuidv4(),
+				title: postTitle,
+				content: postContent,
+				authorId: 2,
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				router.refresh();
+			});
 	};
 
 	return (
