@@ -1,6 +1,12 @@
 'use client';
+import { toast } from 'react-toastify';
+
+import { useRouter } from 'next/navigation';
 
 export const LogIn = () => {
+
+	const router = useRouter();
+
 	const logIn = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -12,6 +18,28 @@ export const LogIn = () => {
 		const password = formData.get('Mdp');
 
 		if (!email || !password) return;
+
+		fetch(`/api/logIn`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+				email: String(email),
+				password: String(password),
+			}),
+		})
+			.then((data) => {
+				if (data.ok) {
+					router.refresh();
+				} else {
+					throw new Error(data.statusText);
+				}
+			})
+			.catch(error => {
+				toast.error('Mot de passe incorrect !');
+			});
 	};
 
 	return (
