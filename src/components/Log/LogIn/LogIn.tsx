@@ -1,10 +1,10 @@
 'use client';
-import { toast } from 'react-toastify';
 
+import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { createContext, useContext } from 'react';
 
 export const LogIn = () => {
-
 	const router = useRouter();
 
 	const logIn = (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,17 +29,23 @@ export const LogIn = () => {
 				email: String(email),
 				password: String(password),
 			}),
-		})
-			.then((data) => {
-				if (data.ok) {
-					router.refresh();
-				} else {
-					throw new Error(data.statusText);
-				}
-			})
-			.catch(error => {
-				toast.error('Mot de passe incorrect !');
-			});
+		}).then((response) => {
+			response.json()
+				.then((data) => {
+					const userId = data.user.id;
+					console.log(userId);
+
+					if (response.ok) {
+						// const UserContext = createContext(data.id);
+						// router.push('/');
+					} else {
+						throw new Error(data.statusText);
+					}
+				})
+				.catch((error) => {
+					toast.error('Identifiants incorrects !');
+				});
+		});
 	};
 
 	return (

@@ -21,10 +21,16 @@ export default async function handler(
 		where: {
 			email: body.email,
 		},
+		select: {
+			id: true,
+			email: true,
+			password: true,
+		},
 	});
 	if (user.password !== body.password || user.email !== body.email) {
 		res.status(401).end();
 		return;
 	}
+
 	res.status(200).json({ user });
 }
