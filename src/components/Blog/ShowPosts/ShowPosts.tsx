@@ -8,10 +8,10 @@ export const ShowPosts: Function = async () => {
 	return (
 		<div className='flex flex-col w-full h-full gap-4 p-6 mt-5 text-white'>
 			{posts.map((post) => (
-				<div key={uuidv4()} className='flex flex-col gap-4 p-4 bg-white rounded bg-opacity-10'>
+				<div key={uuidv4()} className='flex flex-col h-auto gap-4 p-4 bg-white rounded bg-opacity-10'>
 					<h1>{post.id}</h1>
 					<h2 className='font-bold'>{post.title}</h2>
-					<p>{post.content}</p>
+					<p className='max-w-xs'>{post.content}</p>
 				</div>
 			))}
 		</div>

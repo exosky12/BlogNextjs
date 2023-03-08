@@ -2,7 +2,6 @@
 
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { createContext, useContext } from 'react';
 
 export const LogIn = () => {
 	const router = useRouter();
@@ -30,14 +29,13 @@ export const LogIn = () => {
 				password: String(password),
 			}),
 		}).then((response) => {
-			response.json()
+			response
+				.json()
 				.then((data) => {
 					const userId = data.user.id;
-					console.log(userId);
 
 					if (response.ok) {
-						// const UserContext = createContext(data.id);
-						// router.push('/');
+						router.push('');
 					} else {
 						throw new Error(data.statusText);
 					}
